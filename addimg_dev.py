@@ -1,7 +1,7 @@
 import dlib
 import numpy as np
 import os
-import cv2
+import imageio
 
 face_detector = dlib.get_frontal_face_detector()
 pose_predictor_68_point = dlib.shape_predictor('./models/shape_predictor_68_face_landmarks.dat')
@@ -22,15 +22,8 @@ def whirldata_face_encodings(face_image,num_jitters=1):
     return np.array(face_encoder.compute_face_descriptor(face_image, predictor, num_jitters))
 
 count = 0
-video_capture = cv2.VideoCapture('http://192.168.0.3:8080/video')
-while True:
-    ret, frame = video_capture.read()
-    cv2.imshow('Video', frame)
-    if cv2.waitKey(1) & 0xFF == ord('c'):
-         break	
-small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-rgb_small_frame = small_frame[:, :, ::-1]
-enc = whirldata_face_encodings(rgb_small_frame)
+img = imageio.imread("./Michael Jordan.jpg")
+enc = whirldata_face_encodings(img)
 if(len(enc)!=0):
     print("Enter the name for the student")
     name = input()
@@ -41,5 +34,3 @@ if(len(enc)!=0):
         os.mkdir("./dataset/"+name)
         count = 0
     np.savetxt("./dataset/"+name+"/"+name+"_"+str(count)+".csv",enc,delimiter=",")
-video_capture.release()
-cv2.destroyAllWindows()
