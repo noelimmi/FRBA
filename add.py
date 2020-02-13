@@ -1,6 +1,6 @@
 import dlib
 import numpy as np
-import imageio
+import os
 import cv2
 
 face_detector = dlib.get_frontal_face_detector()
@@ -21,7 +21,8 @@ def whirldata_face_encodings(face_image,num_jitters=1):
     predictor = pose_predictor(face_image, face_location) 
     return np.array(face_encoder.compute_face_descriptor(face_image, predictor, num_jitters))
 
-video_capture = cv2.VideoCapture(0)
+count = 0
+video_capture = cv2.VideoCapture('http://192.168.0.3:8080/video')
 while True:
     ret, frame = video_capture.read()
     cv2.imshow('Video', frame)
@@ -33,6 +34,12 @@ enc = whirldata_face_encodings(rgb_small_frame)
 if(len(enc)!=0):
     print("Enter the name for the student")
     name = input()
-    np.savetxt("./dataset/"+name+".csv",enc,delimiter=",")
+    if os.path.exists("./dataset/"+name):
+        for each in os.listdir("./dataset/"+name):
+            count = count+1 
+    else:
+        os.mkdir("./dataset/"+name)
+        count = 0
+    np.savetxt("./dataset/"+name+"/"+name+"_"+str(count)+".csv",enc,delimiter=",")
 video_capture.release()
 cv2.destroyAllWindows()
