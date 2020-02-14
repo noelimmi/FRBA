@@ -22,7 +22,7 @@ def whirldata_face_encodings(face_image,num_jitters=1):
     return np.array(face_encoder.compute_face_descriptor(face_image, predictor, num_jitters))
 
 count = 0
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture('http://192.168.43.105:8080/video')
 while True:
     ret, frame = video_capture.read()
     cv2.imshow('Video', frame)

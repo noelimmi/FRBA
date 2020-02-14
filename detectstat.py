@@ -12,7 +12,7 @@ pose_predictor = dlib.shape_predictor('./models/shape_predictor_68_face_landmark
 face_encoder = dlib.face_recognition_model_v1('./models/dlib_face_recognition_resnet_model_v1.dat')
 distance_threshold = 0.6
 knn = pickle.load(open('model.sav','rb'))
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture('http://192.168.43.105:8080/video')
 while True:
     ret, frame = video_capture.read()
     cv2.imshow('Video', frame)
@@ -20,7 +20,7 @@ while True:
          break	
 small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 img = small_frame[:, :, ::-1]
-face_locations = face_detector(img,0)
+face_locations = face_detector(img,1)
 for face_location in face_locations:
     predictor = pose_predictor(img, face_location)
     encoding = np.array(face_encoder.compute_face_descriptor(img, predictor, 1))
