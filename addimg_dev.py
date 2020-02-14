@@ -22,15 +22,15 @@ def whirldata_face_encodings(face_image,num_jitters=1):
     return np.array(face_encoder.compute_face_descriptor(face_image, predictor, num_jitters))
 
 count = 0
-img = imageio.imread("./Michael Jordan.jpg")
+img = imageio.imread("./gow.jpeg")
 enc = whirldata_face_encodings(img)
 if(len(enc)!=0):
     print("Enter the name for the student")
     name = input()
-    if os.path.exists("./dataset/"+name):
-        for each in os.listdir("./dataset/"+name):
+    if os.path.exists("./Dataset/"+name):
+        for each in os.listdir("./Dataset/"+name):
             count = count+1 
     else:
-        os.mkdir("./dataset/"+name)
+        os.mkdir("./Dataset/"+name)
         count = 0
-    np.savetxt("./dataset/"+name+"/"+name+"_"+str(count)+".csv",enc,delimiter=",")
+    np.savetxt("./Dataset/"+name+"/"+name+"_"+str(count)+".csv",enc,delimiter=",")
