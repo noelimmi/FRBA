@@ -12,7 +12,7 @@ pose_predictor = dlib.shape_predictor('./models/shape_predictor_68_face_landmark
 face_encoder = dlib.face_recognition_model_v1('./models/dlib_face_recognition_resnet_model_v1.dat')
 distance_threshold = 0.6
 knn = pickle.load(open('model.sav','rb'))
-video_capture = cv2.VideoCapture('http://192.168.0.3:8080/video')
+video_capture = cv2.VideoCapture(0)
 while True:
     ret, frame = video_capture.read()
     cv2.imshow('Video', frame)
