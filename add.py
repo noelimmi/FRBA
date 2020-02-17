@@ -22,7 +22,7 @@ def whirldata_face_encodings(face_image,num_jitters=1):
     return np.array(face_encoder.compute_face_descriptor(face_image, predictor, num_jitters))
 
 count = 0
-video_capture = cv2.VideoCapture('http://192.168.0.3:8080/video')
+video_capture = cv2.VideoCapture(0)
 while True:
     ret, img = video_capture.read()
     cv2.imshow('Video', img)
@@ -47,12 +47,13 @@ else:
                     break	
             print("Enter the name for the student")
             name = input()
-            if os.path.exists("./Dataset/"+name):
-                for each in os.listdir("./Dataset/"+name):
-                    count = count+1 
-            else:
-                os.mkdir("./Dataset/"+name)
-                count = 0
-                np.savetxt("./Dataset/"+name+"/"+name+"_"+str(count)+".csv",enc,delimiter=",")
+            if(name != "ignore"):
+                if os.path.exists("./Dataset/"+name):
+                    for each in os.listdir("./Dataset/"+name):
+                        count = count+1 
+                else:
+                    os.mkdir("./Dataset/"+name)
+                    count = 0
+                    np.savetxt("./Dataset/"+name+"/"+name+"_"+str(count)+".csv",enc,delimiter=",")
 video_capture.release()
 cv2.destroyAllWindows()
