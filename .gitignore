@@ -2,3 +2,5 @@ models/
 *.jpg
 *.jpeg
 haarcascade_frontalface_default.xml
+frba_env/
+.vscode/
