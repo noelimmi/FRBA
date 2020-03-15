@@ -24,7 +24,7 @@ c.execute('''CREATE TABLE record (student text, presence text)''')
 default = "No"
 for student in os.listdir("./Dataset"):
     c.execute("insert into record (student,presence) values (?, ?)",(student,default))
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture('http://192.168.0.5:8080/video')
 detected = []
 while datetime.datetime.now() < x:
     ret, frame = video_capture.read()
