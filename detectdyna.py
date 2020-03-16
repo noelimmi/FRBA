@@ -17,14 +17,14 @@ print("Enter the time to stop in Hours and minutes")
 hours = int(input())
 minutes = int(input())
 x = datetime.datetime.now().replace(hour=hours,minute = minutes,second = 0,microsecond = 0)
-new = datetime.datetime.now().strftime("%m.%d.%Y. %H:%M:%S")+' to '+x.strftime("%m.%d.%Y %H:%M:%S")
+new = datetime.datetime.now().strftime("%m.%d.%Y. %H:%M:%S")+' to '+x.strftime("%m.1%d.%Y %H:%M:%S")
 conn = sqlite3.connect('./Database/'+new+'.db')
 c = conn.cursor()
 c.execute('''CREATE TABLE record (student text, presence text)''')
 default = "No"
 for student in os.listdir("./Dataset"):
     c.execute("insert into record (student,presence) values (?, ?)",(student,default))
-video_capture = cv2.VideoCapture('http://192.168.0.5:8080/video')
+video_capture = cv2.VideoCapture(0)
 detected = []
 while datetime.datetime.now() < x:
     ret, frame = video_capture.read()
@@ -35,8 +35,8 @@ while datetime.datetime.now() < x:
         predictor = pose_predictor(img, face_location)
         encoding = np.array(face_encoder.compute_face_descriptor(img, predictor, 1))
         closest_distances = knn.kneighbors(encoding.reshape(1,-1),n_neighbors = 1)
-        if(closest_distances[0][0][0]>=0.6):
-            print("unknown")
+        if(closest_distances[0][0][0]>=0.5):
+            pass
         else:
             predicted = knn.predict((np.array(face_encoder.compute_face_descriptor(img, predictor, 1))).reshape(1,-1))[0] 
             if(predicted not in detected):

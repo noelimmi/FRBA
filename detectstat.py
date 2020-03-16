@@ -34,8 +34,8 @@ for face_location in face_locations:
     predictor = pose_predictor(img, face_location)
     encoding = np.array(face_encoder.compute_face_descriptor(img, predictor, 1))
     closest_distances = knn.kneighbors(encoding.reshape(1,-1),n_neighbors = 1)
-    if(closest_distances[0][0][0]>=0.6):
-        print("unknown")
+    if(closest_distances[0][0][0]>=0.5):
+        pass
     else:
         predicted = knn.predict((np.array(face_encoder.compute_face_descriptor(img, predictor, 1))).reshape(1,-1))[0]
         if(predicted not in detected):
